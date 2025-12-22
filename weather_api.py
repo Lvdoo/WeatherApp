@@ -40,6 +40,7 @@ def get_weather(city, unit) -> dict:
         "clouds": data["clouds"]["all"],
         "time": data["dt"],
         "sunrise": data["sys"]["sunrise"],
-        "sunset": data["sys"]["sunset"]
+        "sunset": data["sys"]["sunset"],
+        "timezone": data["timezone"]
     }
     return weather_dict
