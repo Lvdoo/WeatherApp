@@ -14,7 +14,8 @@ def to_time(timestamp : int, timezone : int) -> datetime :
     """
     if timestamp is not None and timezone is not None :
         dt = datetime.fromtimestamp(timestamp + timezone)
-        return dt
+        dt_str = dt.strftime("%Y-%m-%d %H:%M:%S")
+        return dt_str
     else :
         raise ValueError("timestamp and timezone must be integers")
 
