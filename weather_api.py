@@ -14,17 +14,19 @@ from config import APIKEY
 # metric = celsius
 # imperial = fahrenheit
 
-def get_weather(city, unit) -> dict:
+def get_weather(city : str, unit : str) -> dict:
     """
     Args:
         city (string): Name of the city for the weather
-        unit (string): Unit for the temperature : Celsius or Fahrenheit
+        unit (string): Unit for the temperature : Metric(Celsius) or Imperial(Fahrenheit)
 
     Returns:
         dict: Return a dict of all the infos about the weather
     """
+    if response.status_code != 200 :
+        raise ValueError(f"API error: {data.get('message', 'Unknown error')}")
 
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city}&appid={APIKEY}&units={unit}"
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={city.strip().capitalize()}&appid={APIKEY}&units={unit.strip().lower()}"
     response = requests.get(url)
     data = response.json()
     weather_dict = {
