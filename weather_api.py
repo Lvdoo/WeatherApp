@@ -23,12 +23,14 @@ def get_weather(city : str, unit : str) -> dict:
     Returns:
         dict: Return a dict of all the infos about the weather
     """
-    if response.status_code != 200 :
-        raise ValueError(f"API error: {data.get('message', 'Unknown error')}")
 
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city.strip().capitalize()}&appid={APIKEY}&units={unit.strip().lower()}"
     response = requests.get(url)
     data = response.json()
+    
+    if response.status_code != 200 :  #http code = 200 : everything ok
+        raise ValueError(f"API error: {data.get('message', 'Unknown error')}")
+    
     weather_dict = {
         "description": data["weather"][0]["description"],
         "temperature": data["main"]["temp"],
