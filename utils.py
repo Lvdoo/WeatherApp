@@ -1,7 +1,8 @@
 from datetime import datetime 
 
-def to_time(timestamp : int, timezone : int) -> datetime :
+def to_time(timestamp : int, timezone : int) -> str :
     """
+    Convert a UTC timestamp + timezone offset to a local datetime.
     Args:
         timestamp (int): timestamp of time 
         timezone (int): timestamp of time difference
@@ -10,7 +11,7 @@ def to_time(timestamp : int, timezone : int) -> datetime :
         ValueError: message of error if values are wrong
 
     Returns:
-        datetime: time in datetime 
+        str: time in format Y-m-d H:M:S
     """
     if timestamp is not None and timezone is not None :
         dt = datetime.fromtimestamp(timestamp + timezone)
@@ -22,6 +23,7 @@ def to_time(timestamp : int, timezone : int) -> datetime :
 def wind_deg_to_direction(wind_deg : float) -> str :
     """
     Args:
+    Convert wind degree to cardinal direction.
         wind_deg (float): degree of wind
 
     Raises:
@@ -47,4 +49,29 @@ def wind_deg_to_direction(wind_deg : float) -> str :
     elif wind_deg >= 292.5 and wind_deg < 337.5 :
         return "NW"
     else : 
-        raise ValueError("wind_deg must be a positive integer.")
+        raise ValueError("wind_deg must be a positive integer between 0 and 360.")
+    
+def clouds_to_text(clouds: int) -> str:
+    """
+    Convert cloud percentage to human-readable text.
+
+    Args:
+        clouds (int): Cloud coverage percentage (0–100)
+
+    Returns:
+        str: Description of cloud coverage
+    """
+
+    if not isinstance(clouds, int) or not 0 <= clouds <= 100:
+        raise ValueError("clouds must be between 0 and 100")
+
+    if clouds == 0:
+        return "Clear sky"
+    elif clouds < 25:
+        return "Mostly clear"
+    elif clouds < 50:
+        return "Partly cloudy"
+    elif clouds < 75:
+        return "Mostly cloudy"
+    else:
+        return "Overcast"
