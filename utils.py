@@ -22,8 +22,8 @@ def to_time(timestamp : int, timezone : int) -> str :
 
 def wind_deg_to_direction(wind_deg : float) -> str :
     """
-    Args:
     Convert wind degree to cardinal direction.
+    Args:
         wind_deg (float): degree of wind
 
     Raises:
