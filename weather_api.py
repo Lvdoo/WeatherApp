@@ -1,21 +1,9 @@
 import requests
 from config import APIKEY
 
-# for the wind :
-# 0° = nord
-# 90° = est
-# 180° = sud
-# 270° = ouest
-
-# for clouds :
-# 0 → ciel totalement dégagé
-# 100 → ciel complètement couvert
-
-# metric = celsius
-# imperial = fahrenheit
-
 def get_weather(city : str, unit : str) -> dict:
     """
+    Retrieve weather information for a given city
     Args:
         city (string): Name of the city for the weather
         unit (string): Unit for the temperature : Metric(Celsius) or Imperial(Fahrenheit)
@@ -24,6 +12,11 @@ def get_weather(city : str, unit : str) -> dict:
         dict: Return a dict of all the infos about the weather
     """
 
+    if not city or not isinstance(city, str):
+        raise ValueError("City must be a non-empty string")
+    if unit not in ("metric", "imperial"):
+        raise ValueError("Unit must be 'metric' or 'imperial'")
+    
     url = f"https://api.openweathermap.org/data/2.5/weather?q={city.strip().capitalize()}&appid={APIKEY}&units={unit.strip().lower()}"
     response = requests.get(url)
     data = response.json()
