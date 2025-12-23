@@ -17,7 +17,7 @@ from config import APIKEY
 def get_weather(city, unit) -> dict:
     """
     Args:
-        city (string): Name of the xity for the weather
+        city (string): Name of the city for the weather
         unit (string): Unit for the temperature : Celsius or Fahrenheit
 
     Returns:
