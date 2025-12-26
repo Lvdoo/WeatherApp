@@ -1,6 +1,7 @@
 from tkinter import *
 import weather_api
 import utils
+from PIL import Image, ImageTk
 
 def display_weather() :
 
@@ -29,9 +30,12 @@ def display_weather() :
     label_min_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
 
     #Images
-    max_temp_image = PhotoImage(file = "icons/fleche_haut.png")
-    label_max_temp_image = Label(main_frame, image = max_temp_image, bg = "#517DCA")
-    label_max_temp_image.image = max_temp_image
+    max_temp_img = Image.open("icons/fleche_haut.png").resize((20,17))
+    max_temp_image = ImageTk.PhotoImage(max_temp_img)
+    label_max_temp_image = Label(main_frame, image = "", bg = "#517DCA")
+    min_temp_img = Image.open("icons/fleche_bas.png").resize((20,17))
+    min_temp_image = ImageTk.PhotoImage(min_temp_img)
+    label_min_temp_image = Label(main_frame, image = "", bg = "#517DCA")
 
     def display_infos() :
         city = city_input.get().strip().capitalize()
@@ -46,6 +50,18 @@ def display_weather() :
             symbol = "F"
 
         infos = weather_api.get_weather(city,unit)
+
+        #This is to place the icon better
+        if abs(round(infos['max_temp']) > 10) :
+            padx_fleche_haut = (0,180)
+        else : 
+            padx_fleche_haut = (0,170)
+
+        if abs(round(infos['min_temp'])) > 10 :
+            padx_fleche_bas = (60,0)
+        else :
+            padx_fleche_bas = (70,0)
+
         #Get temperature values rounded
         temperature = round(infos['temperature'])
         temp_felt = round(infos['felt_temp'])
@@ -57,6 +73,15 @@ def display_weather() :
         label_temp_felt.config(text = f"Temperature felt : {temp_felt}{symbol}")
         label_max_temp.config(text = f"{max_temp}{symbol}")
         label_min_temp.config(text = f"{min_temp}{symbol}")
+
+        #Udpate images
+        label_max_temp_image.config(image = max_temp_image)
+        label_max_temp_image.image = max_temp_image
+        label_max_temp_image.grid(row = 2, column = 1, padx = padx_fleche_haut, pady = 5) 
+        label_min_temp_image.config(image = min_temp_image)
+        label_min_temp_image.image = min_temp_image
+        label_min_temp_image.grid(row = 2, column = 1, padx = padx_fleche_bas, pady = 5) 
+        
         
     #Search button to display weather
     search_button = Button(top_frame, text = "Search", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = display_infos)
@@ -75,8 +100,7 @@ def display_weather() :
     label_temp_felt.grid(row = 1, column = 1)
     label_max_temp.grid(row = 2, column = 1, padx = (0,120), pady = 5)
     label_min_temp.grid(row = 2, column = 1, padx = (120,0), pady = 5)
-    label_max_temp_image.grid(row = 2, column = 1, padx = (0,150), pady = 5)
-
+        
     #Display frames
     top_frame.pack()
     main_frame.pack()
