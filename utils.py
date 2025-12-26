@@ -77,4 +77,12 @@ def clouds_to_text(clouds : int) -> str :
         return "Overcast"
     
 def wind_speed_to_km_h(wind_speed : int) -> int :
+    """
+    Convert wind speed to km/h
+    Args:
+        wind_speed (int): Speed of the winf$d
+
+    Returns:
+        int: Wind speed in km/h
+    """
     return wind_speed * 3.6
