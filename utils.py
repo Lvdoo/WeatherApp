@@ -51,7 +51,7 @@ def wind_deg_to_direction(wind_deg : float) -> str :
     else : 
         raise ValueError("wind_deg must be a positive integer between 0 and 360.")
     
-def clouds_to_text(clouds: int) -> str:
+def clouds_to_text(clouds : int) -> str :
     """
     Convert cloud percentage to human-readable text.
 
@@ -75,3 +75,6 @@ def clouds_to_text(clouds: int) -> str:
         return "Mostly cloudy"
     else:
         return "Overcast"
+    
+def wind_speed_to_km_h(wind_speed : int) -> int :
+    return wind_speed * 3.6
