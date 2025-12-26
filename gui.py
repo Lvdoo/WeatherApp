@@ -7,31 +7,79 @@ def display_weather() :
     #Create a window 
     window = Tk()
 
-    #Personlize window 
+    #Personalize window 
     window.title("WeatherApp")
     window.geometry("1080x720")
     window.minsize(1080,720)
-    window.iconbitmap("icons/weather_icon.ico")
     window.config(bg = "#517DCA")
 
-    frame = Frame(window, bg = "#4065A4")
+    #Interdace in 3 frames
+    top_frame = Frame(window, bg = "#517DCA")
+    main_frame = Frame(window, bg = "#517DCA")
+    inofs_frame = Frame(window, bg = "#517DCA")
 
-    city_input = Entry(frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
-    unit_input = Entry(frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
+    #Labels and inputs
+    label_city = Label(top_frame, text = "City : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
+    label_unit = Label(top_frame, text = "Unit : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
+    city_input = Entry(top_frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
+    unit_input = Entry(top_frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
+    label_temperature = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 60), fg = "white")
+    label_temp_felt = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_max_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
+    label_min_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
+
+    #Images
+    max_temp_image = PhotoImage(file = "icons/fleche_haut.png")
+    label_max_temp_image = Label(main_frame, image = max_temp_image, bg = "#517DCA")
+    label_max_temp_image.image = max_temp_image
 
     def display_infos() :
         city = city_input.get().strip().capitalize()
         unit = unit_input.get().strip().lower()
+        symbol = ""
+
+        if unit == "celsius" or unit == "metric":
+            unit = "metric"
+            symbol = "°"
+        elif unit == "fahrenheit" or unit == "imperial":
+            unit = "imperial"
+            symbol = "F"
+
         infos = weather_api.get_weather(city,unit)
-        label = Label(frame, text = f" Temperature : {infos['temperature']}", bg = "#7895C7", font = ('Helvetica', 15), relief = SUNKEN)
-        label.pack()
+        #Get temperature values rounded
+        temperature = round(infos['temperature'])
+        temp_felt = round(infos['felt_temp'])
+        max_temp = round(infos['max_temp'])
+        min_temp = round(infos['min_temp'])
 
-    search_button = Button(frame, text = "Search", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = display_infos)
+        #Update labels 
+        label_temperature.config(text = f"{temperature}{symbol}")
+        label_temp_felt.config(text = f"Temperature felt : {temp_felt}{symbol}")
+        label_max_temp.config(text = f"{max_temp}{symbol}")
+        label_min_temp.config(text = f"{min_temp}{symbol}")
+        
+    #Search button to display weather
+    search_button = Button(top_frame, text = "Search", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = display_infos)
 
-    city_input.pack()
-    unit_input.pack()
-    search_button.pack(fill = X)
-    frame.pack()
+    #Labels of top_frame
+    label_city.grid(row = 0, column = 0, sticky = "e", padx = 5, pady = (20,5))
+    city_input.grid(row = 0, column = 1, padx = 10, pady = (20,5))
+
+    label_unit.grid(row = 1, column = 0, sticky = "e", padx = 5, pady = 5)
+    unit_input.grid(row = 1, column = 1, padx=10, pady = 5)
+
+    search_button.grid(row = 2, column = 0, columnspan = 2, pady=5, sticky = EW) #columnspan permet à "search_button" de prendre 2 colonnes
+
+    #Labels and images of main_frame
+    label_temperature.grid(row = 0,column = 1, pady = (50,5))
+    label_temp_felt.grid(row = 1, column = 1)
+    label_max_temp.grid(row = 2, column = 1, padx = (0,120), pady = 5)
+    label_min_temp.grid(row = 2, column = 1, padx = (120,0), pady = 5)
+    label_max_temp_image.grid(row = 2, column = 1, padx = (0,150), pady = 5)
+
+    #Display frames
+    top_frame.pack()
+    main_frame.pack()
 
     #Display window
     window.mainloop()
