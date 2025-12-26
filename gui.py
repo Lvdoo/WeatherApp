@@ -28,6 +28,7 @@ def display_weather() :
     label_temp_felt = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_max_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
     label_min_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
+    label_humidity = Label(inofs_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
 
     #Images
     max_temp_img = Image.open("icons/fleche_haut.png").resize((20,17))
@@ -89,10 +90,8 @@ def display_weather() :
     #Labels of top_frame
     label_city.grid(row = 0, column = 0, sticky = "e", padx = 5, pady = (20,5))
     city_input.grid(row = 0, column = 1, padx = 10, pady = (20,5))
-
     label_unit.grid(row = 1, column = 0, sticky = "e", padx = 5, pady = 5)
     unit_input.grid(row = 1, column = 1, padx=10, pady = 5)
-
     search_button.grid(row = 2, column = 0, columnspan = 2, pady=5, sticky = EW) #columnspan permet à "search_button" de prendre 2 colonnes
 
     #Labels and images of main_frame
@@ -100,6 +99,8 @@ def display_weather() :
     label_temp_felt.grid(row = 1, column = 1)
     label_max_temp.grid(row = 2, column = 1, padx = (0,120), pady = 5)
     label_min_temp.grid(row = 2, column = 1, padx = (120,0), pady = 5)
+
+    #Labels and images of infos_frame
         
     #Display frames
     top_frame.pack()
