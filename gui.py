@@ -28,10 +28,10 @@ def display_weather() :
     label_temp_felt = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_max_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
     label_min_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
-    label_humidity = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
-    label_wind_direction = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
-    label_wind_speed = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
-    label_clouds = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
+    label_humidity = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_wind_direction = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_wind_speed = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_clouds = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
 
     #Images
     max_temp_img = Image.open("icons/fleche_haut.png").resize((20,17))
@@ -84,9 +84,9 @@ def display_weather() :
         label_max_temp.config(text = f"{max_temp}{symbol}")
         label_min_temp.config(text = f"{min_temp}{symbol}")
         label_humidity.config(text = f"Humidity : {humidity}%")
-        label_wind_direction.config(text = f"Wind Direction : {wind_direction}")
-        label_wind_speed.config(text = f"Wind Speed : {wind_speed}")
-        label_clouds.config(text = f"Clouds : {clouds}")
+        label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
+        label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)}")
+        label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
 
         #Udpate images
         label_max_temp_image.config(image = max_temp_image)
@@ -114,6 +114,10 @@ def display_weather() :
     label_min_temp.grid(row = 2, column = 1, padx = (120,0), pady = 5)
 
     #Labels and images of infos_frame
+    label_humidity.grid(row = 0, column = 0, pady = (50,5))
+    label_wind_direction.grid(row = 0, column = 1, pady = (50,5))
+    label_wind_speed.grid(row = 0, column = 2, pady = (50,5))
+    label_clouds.grid(row = 0, column = 3   , pady = (50,5))
         
     #Display frames
     top_frame.pack()
