@@ -24,6 +24,7 @@ def display_weather() :
     wind_frame = Frame(infos_frame, bg = "#517DCA")
     cloud_frame = Frame(infos_frame, bg = "#517DCA")
     time_frame = Frame(infos_frame, bg = "#517DCA")
+    day_frame = Frame(infos_frame, bg = "#517DCA")
 
     #Labels and inputs
     label_city = Label(top_frame, text = "City : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
@@ -42,7 +43,7 @@ def display_weather() :
     label_clouds = Label(cloud_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_sunrise = Label(time_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_sunset = Label(time_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
-    label_time = Label(time_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_time = Label(day_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
 
     #Images
     max_temp_image = ImageTk.PhotoImage(Image.open("icons/fleche_haut.png").resize((20,17)))
@@ -104,6 +105,7 @@ def display_weather() :
         sunset = utils.to_time(infos['sunset'], timezone)
         sunrise_time = sunrise[11:]
         sunset_time = sunset[11:]
+        time = infos['time']
 
         #Update labels 
         label_temperature.config(text = f"{temperature}{symbol}")
@@ -117,6 +119,7 @@ def display_weather() :
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
         label_sunrise.config(text = f"Sunset : {sunrise_time}")
         label_sunset.config(text = f"Sunset : {sunset_time}")
+        label_time.config(text = f"Day/Time : {utils.to_time(time, timezone)}")
 
         #Udpate images
         label_max_temp_image.config(image = max_temp_image)
@@ -143,20 +146,20 @@ def display_weather() :
     #Search button to display weather
     search_button = Button(top_frame, text = "Search", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = display_infos)
 
-    #Labels of top_frame
+    #Display labels of top_frame
     label_city.grid(row = 0, column = 0, sticky = "e", padx = 5, pady = (20,5))
     city_input.grid(row = 0, column = 1, padx = 10, pady = (20,5))
     label_unit.grid(row = 1, column = 0, sticky = "e", padx = 5, pady = 5)
     unit_input.grid(row = 1, column = 1, padx=10, pady = 5)
     search_button.grid(row = 2, column = 0, columnspan = 2, pady=5, sticky = EW) #columnspan permet à "search_button" de prendre 2 colonnes
 
-    #Labels and images of main_frame
+    #Display labels and images of main_frame
     label_temperature.grid(row = 0,column = 1, pady = (50,5))
     label_temp_felt.grid(row = 1, column = 1)
     label_max_temp.grid(row = 2, column = 1, padx = (0,120), pady = 5)
     label_min_temp.grid(row = 2, column = 1, padx = (120,0), pady = 5)
 
-    #Labels and images of infos_frame
+    #Display labels and images of infos_frame
     label_humidity_image.grid(row = 0, column = 0, pady = (50,5))
     label_humidity.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
     label_orientation_image.grid(row = 0, column = 0, pady = (50,5))
@@ -169,6 +172,7 @@ def display_weather() :
     label_sunrise.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
     label_sunset_image.grid(row = 0, column = 2, pady = (50,5))
     label_sunset.grid(row = 0, column = 3, padx = (0,40), pady = (50,5))
+    label_time.grid(pady = 25)
 
         
     #Display frames
@@ -180,6 +184,7 @@ def display_weather() :
     wind_frame.grid(row = 0, column = 1)
     cloud_frame.grid(row = 0, column = 2)
     time_frame.grid(row = 1, columnspan = 3)
+    day_frame.grid(row = 2, columnspan = 3)
 
     #Display window
     window.mainloop()
