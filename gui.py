@@ -102,11 +102,11 @@ def display_weather() :
         wind_speed = round(infos['wind_speed'])
         clouds = infos['clouds']
         timezone_offset = infos['timezone']
-        sunrise = utils.to_time(infos['sunrise'], timezone)
-        sunset = utils.to_time(infos['sunset'], timezone)
+        sunrise = utils.to_time(infos['sunrise'], timezone_offset)
+        sunset = utils.to_time(infos['sunset'], timezone_offset)
         sunrise_time = sunrise[11:16]
-        sunset_time = sunset[11:16]
-        time = utils.to_time(infos['time'], timezone)
+        sunset_time = sunset[11:15]
+        time = utils.to_time(infos['time'], timezone_offset)
         time_date = time[:12]
 
         #Get actual time
@@ -124,7 +124,7 @@ def display_weather() :
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
         label_sunrise.config(text = f"Sunrise : {sunrise_time}")
         label_sunset.config(text = f"Sunset : {sunset_time}")
-        label_time.config(text=f"Local time : {time_date} {now_local.strftime('%H:%M')}")
+        label_time.config(text=f"Local Day/Time : {time_date} {now_local.strftime('%H:%M')}")
 
         #Udpate images
         label_max_temp_image.config(image = max_temp_image)
