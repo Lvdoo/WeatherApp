@@ -107,7 +107,7 @@ def display_weather() :
         sunrise_time = sunrise[11:16]
         sunset_time = sunset[11:16]
         time = utils.to_time(infos['time'], timezone_offset)
-        time_date = time[:12]
+        time_date = time[:11]
 
         #Get actual time
         now_local = datetime.now(timezone(timedelta(seconds=timezone_offset)))
