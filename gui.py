@@ -61,7 +61,7 @@ def display_weather() :
     label_cloud_image = Label(cloud_frame, image = "", bg = "#517DCA")
     sunrise_image = ImageTk.PhotoImage(Image.open("icons/sunrise_icon.png").resize((50,50)))
     label_sunrise_image = Label(time_frame, image = "", bg = "#517DCA")
-    sunset_image = ImageTk.PhotoImage(Image.open("icons/sunrise_icon.png").resize((50,50)))
+    sunset_image = ImageTk.PhotoImage(Image.open("icons/sunset_icon.png").resize((50,50)))
     label_sunset_image = Label(time_frame, image = "", bg = "#517DCA")
 
     def display_infos() :
@@ -117,7 +117,7 @@ def display_weather() :
         label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
         label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)}")
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
-        label_sunrise.config(text = f"Sunset : {sunrise_time}")
+        label_sunrise.config(text = f"Sunrise : {sunrise_time}")
         label_sunset.config(text = f"Sunset : {sunset_time}")
         label_time.config(text = f"Day/Time : {utils.to_time(time, timezone)}")
 
