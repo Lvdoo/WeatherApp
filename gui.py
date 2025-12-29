@@ -23,6 +23,7 @@ def display_weather() :
     humidity_frame = Frame(infos_frame, bg = "#517DCA")
     wind_frame = Frame(infos_frame, bg = "#517DCA")
     cloud_frame = Frame(infos_frame, bg = "#517DCA")
+    time_frame = Frame(infos_frame, bg = "#517DCA")
 
     #Labels and inputs
     label_city = Label(top_frame, text = "City : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
@@ -39,6 +40,9 @@ def display_weather() :
     label_wind_direction = Label(wind_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_wind_speed = Label(wind_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_clouds = Label(cloud_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_sunrise = Label(time_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_sunset = Label(time_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_time = Label(time_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
 
     #Images
     max_temp_image = ImageTk.PhotoImage(Image.open("icons/fleche_haut.png").resize((20,17)))
@@ -54,6 +58,10 @@ def display_weather() :
     label_wind_icon_image = Label(wind_frame, image = "", bg = "#517DCA")
     clouds_image = ImageTk.PhotoImage(Image.open("icons/clouds_icon.png").resize((50,50)))
     label_cloud_image = Label(cloud_frame, image = "", bg = "#517DCA")
+    sunrise_image = ImageTk.PhotoImage(Image.open("icons/sunrise_icon.png").resize((50,50)))
+    label_sunrise_image = Label(time_frame, image = "", bg = "#517DCA")
+    sunset_image = ImageTk.PhotoImage(Image.open("icons/sunrise_icon.png").resize((50,50)))
+    label_sunset_image = Label(time_frame, image = "", bg = "#517DCA")
 
     def display_infos() :
         city = city_input.get().strip().capitalize()
@@ -91,6 +99,11 @@ def display_weather() :
         wind_direction = infos['wind_orientation']
         wind_speed = round(infos['wind_speed'])
         clouds = infos['clouds']
+        timezone = infos['timezone']
+        sunrise = utils.to_time(infos['sunrise'], timezone)
+        sunset = utils.to_time(infos['sunset'], timezone)
+        sunrise_time = sunrise[11:]
+        sunset_time = sunset[11:]
 
         #Update labels 
         label_temperature.config(text = f"{temperature}{symbol}")
@@ -102,6 +115,8 @@ def display_weather() :
         label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
         label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)}")
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
+        label_sunrise.config(text = f"Sunset : {sunrise_time}")
+        label_sunset.config(text = f"Sunset : {sunset_time}")
 
         #Udpate images
         label_max_temp_image.config(image = max_temp_image)
@@ -119,6 +134,10 @@ def display_weather() :
         label_wind_icon_image.image = wind_icon_image
         label_cloud_image.config(image = clouds_image)
         label_cloud_image.image = clouds_image
+        label_sunrise_image.config(image = sunrise_image)
+        label_sunrise_image.image = sunrise_image
+        label_sunset_image.config(image = sunset_image)
+        label_sunset_image.image = sunset_image
         
         
     #Search button to display weather
@@ -146,15 +165,21 @@ def display_weather() :
     label_wind_speed.grid(row = 0, column = 3, padx = (0,40), pady = (50,5))
     label_cloud_image.grid(row = 0, column = 0, pady = (50,5))
     label_clouds.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
+    label_sunrise_image.grid(row = 0, column = 0, pady = (50,5))
+    label_sunrise.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
+    label_sunset_image.grid(row = 0, column = 2, pady = (50,5))
+    label_sunset.grid(row = 0, column = 3, padx = (0,40), pady = (50,5))
+
         
     #Display frames
-    top_frame.pack(pady = 20)
-    main_frame.pack(pady = 20)
-    infos_frame.pack(pady = 20)
+    top_frame.pack(pady = 10)
+    main_frame.pack()
+    infos_frame.pack()
 
     humidity_frame.grid(row = 0, column = 0)
     wind_frame.grid(row = 0, column = 1)
     cloud_frame.grid(row = 0, column = 2)
+    time_frame.grid(row = 1, columnspan = 3)
 
     #Display window
     window.mainloop()
