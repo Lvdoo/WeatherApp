@@ -1,6 +1,6 @@
-from datetime import datetime 
+from datetime import datetime,timezone,timedelta
 
-def to_time(timestamp : int, timezone : int) -> str :
+def to_time(timestamp : int, tz_offset : int) -> str :
     """
     Convert a UTC timestamp + timezone offset to a local datetime.
     Args:
@@ -13,12 +13,11 @@ def to_time(timestamp : int, timezone : int) -> str :
     Returns:
         str: time in format Y-m-d H:M:S
     """
-    if timestamp is not None and timezone is not None :
-        dt = datetime.fromtimestamp(timestamp + timezone)
-        dt_str = dt.strftime("%Y-%m-%d %H:%M:%S")
-        return dt_str
-    else :
-        raise ValueError("timestamp and timezone must be integers")
+    if timestamp is None or tz_offset is None:
+        raise ValueError("timestamp and tz_offset must be integers")
+    dt_utc = datetime.fromtimestamp(timestamp, tz=timezone.utc)
+    dt_local = dt_utc.astimezone(timezone(timedelta(seconds=tz_offset)))
+    return dt_local.strftime("%Y-%m-%d %H:%M:%S")
 
 def wind_deg_to_direction(wind_deg : float) -> str :
     """
