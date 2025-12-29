@@ -2,6 +2,7 @@ from tkinter import *
 import weather_api
 import utils
 from PIL import Image, ImageTk
+from datetime import datetime, timezone, timedelta
 
 def display_weather() :
 
@@ -100,12 +101,16 @@ def display_weather() :
         wind_direction = infos['wind_orientation']
         wind_speed = round(infos['wind_speed'])
         clouds = infos['clouds']
-        timezone = infos['timezone']
+        timezone_offset = infos['timezone']
         sunrise = utils.to_time(infos['sunrise'], timezone)
         sunset = utils.to_time(infos['sunset'], timezone)
         sunrise_time = sunrise[11:16]
         sunset_time = sunset[11:16]
-        time = infos['time']
+        time = utils.to_time(infos['time'], timezone)
+        time_date = time[:12]
+
+        #Get actual time
+        now_local = datetime.now(timezone(timedelta(seconds=timezone_offset)))
 
         #Update labels 
         label_temperature.config(text = f"{temperature}{symbol}")
@@ -119,7 +124,7 @@ def display_weather() :
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
         label_sunrise.config(text = f"Sunrise : {sunrise_time}")
         label_sunset.config(text = f"Sunset : {sunset_time}")
-        label_time.config(text = f"Day/Time : {utils.to_time(time, timezone)}")
+        label_time.config(text=f"Local time : {time_date} {now_local.strftime('%H:%M')}")
 
         #Udpate images
         label_max_temp_image.config(image = max_temp_image)
