@@ -103,8 +103,8 @@ def display_weather() :
         timezone = infos['timezone']
         sunrise = utils.to_time(infos['sunrise'], timezone)
         sunset = utils.to_time(infos['sunset'], timezone)
-        sunrise_time = sunrise[11:]
-        sunset_time = sunset[11:]
+        sunrise_time = sunrise[11:16]
+        sunset_time = sunset[11:16]
         time = infos['time']
 
         #Update labels 
