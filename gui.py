@@ -105,7 +105,7 @@ def display_weather() :
         sunrise = utils.to_time(infos['sunrise'], timezone_offset)
         sunset = utils.to_time(infos['sunset'], timezone_offset)
         sunrise_time = sunrise[11:16]
-        sunset_time = sunset[11:15]
+        sunset_time = sunset[11:16]
         time = utils.to_time(infos['time'], timezone_offset)
         time_date = time[:12]
 
