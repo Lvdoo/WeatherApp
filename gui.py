@@ -14,32 +14,46 @@ def display_weather() :
     window.minsize(1080,720)
     window.config(bg = "#517DCA")
 
-    #Interdace in 3 frames
+    #Interface in 3 frames
     top_frame = Frame(window, bg = "#517DCA")
     main_frame = Frame(window, bg = "#517DCA")
     infos_frame = Frame(window, bg = "#517DCA")
+
+    #Subframes
+    humidity_frame = Frame(infos_frame, bg = "#517DCA")
+    wind_frame = Frame(infos_frame, bg = "#517DCA")
+    cloud_frame = Frame(infos_frame, bg = "#517DCA")
 
     #Labels and inputs
     label_city = Label(top_frame, text = "City : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
     label_unit = Label(top_frame, text = "Unit : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
     city_input = Entry(top_frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
     unit_input = Entry(top_frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
+
     label_temperature = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 60), fg = "white")
     label_temp_felt = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_max_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
     label_min_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
-    label_humidity = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
-    label_wind_direction = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
-    label_wind_speed = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
-    label_clouds = Label(infos_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+
+    label_humidity = Label(humidity_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_wind_direction = Label(wind_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_wind_speed = Label(wind_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
+    label_clouds = Label(cloud_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
 
     #Images
-    max_temp_img = Image.open("icons/fleche_haut.png").resize((20,17))
-    max_temp_image = ImageTk.PhotoImage(max_temp_img)
-    label_max_temp_image = Label(main_frame, image = "", bg = "#517DCA")
-    min_temp_img = Image.open("icons/fleche_bas.png").resize((20,17))
-    min_temp_image = ImageTk.PhotoImage(min_temp_img)
+    max_temp_image = ImageTk.PhotoImage(Image.open("icons/fleche_haut.png").resize((20,17)))
+    label_max_temp_image = Label(main_frame, image = "", bg = "#517DCA") 
+    min_temp_image = ImageTk.PhotoImage(Image.open("icons/fleche_bas.png").resize((20,17)))
     label_min_temp_image = Label(main_frame, image = "", bg = "#517DCA")
+
+    humidity_image = ImageTk.PhotoImage(Image.open("icons/humidity_icon.png").resize((50,50)))
+    label_humidity_image = Label(humidity_frame, image = "", bg = "#517DCA")
+    wind_orientation_image = ImageTk.PhotoImage(Image.open("icons/orientation_icon.png").resize((50,50)))
+    label_orientation_image = Label(wind_frame, image = "", bg = "#517DCA")
+    wind_icon_image = ImageTk.PhotoImage(Image.open("icons/wind_icon.png").resize((50,50)))
+    label_wind_icon_image = Label(wind_frame, image = "", bg = "#517DCA")
+    clouds_image = ImageTk.PhotoImage(Image.open("icons/clouds_icon.png").resize((50,50)))
+    label_cloud_image = Label(cloud_frame, image = "", bg = "#517DCA")
 
     def display_infos() :
         city = city_input.get().strip().capitalize()
@@ -75,7 +89,7 @@ def display_weather() :
         #Get other infos
         humidity = infos['humidity']
         wind_direction = infos['wind_orientation']
-        wind_speed = infos['wind_speed']
+        wind_speed = round(infos['wind_speed'])
         clouds = infos['clouds']
 
         #Update labels 
@@ -83,6 +97,7 @@ def display_weather() :
         label_temp_felt.config(text = f"Temperature felt : {temp_felt}{symbol}")
         label_max_temp.config(text = f"{max_temp}{symbol}")
         label_min_temp.config(text = f"{min_temp}{symbol}")
+
         label_humidity.config(text = f"Humidity : {humidity}%")
         label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
         label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)}")
@@ -95,6 +110,15 @@ def display_weather() :
         label_min_temp_image.config(image = min_temp_image)
         label_min_temp_image.image = min_temp_image
         label_min_temp_image.grid(row = 2, column = 1, padx = padx_fleche_bas, pady = 5) 
+
+        label_humidity_image.config(image = humidity_image)
+        label_humidity_image.image = humidity_image
+        label_orientation_image.config(image = wind_orientation_image)
+        label_orientation_image.image = wind_orientation_image
+        label_wind_icon_image.config(image = wind_icon_image)
+        label_wind_icon_image.image = wind_icon_image
+        label_cloud_image.config(image = clouds_image)
+        label_cloud_image.image = clouds_image
         
         
     #Search button to display weather
@@ -114,14 +138,23 @@ def display_weather() :
     label_min_temp.grid(row = 2, column = 1, padx = (120,0), pady = 5)
 
     #Labels and images of infos_frame
-    label_humidity.grid(row = 0, column = 0, pady = (50,5))
-    label_wind_direction.grid(row = 0, column = 1, pady = (50,5))
-    label_wind_speed.grid(row = 0, column = 2, pady = (50,5))
-    label_clouds.grid(row = 0, column = 3   , pady = (50,5))
+    label_humidity_image.grid(row = 0, column = 0, pady = (50,5))
+    label_humidity.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
+    label_orientation_image.grid(row = 0, column = 0, pady = (50,5))
+    label_wind_direction.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
+    label_wind_icon_image.grid(row = 0, column = 2, pady = (50,5))
+    label_wind_speed.grid(row = 0, column = 3, padx = (0,40), pady = (50,5))
+    label_cloud_image.grid(row = 0, column = 0, pady = (50,5))
+    label_clouds.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
         
     #Display frames
-    top_frame.pack()
-    main_frame.pack()
+    top_frame.pack(pady = 20)
+    main_frame.pack(pady = 20)
+    infos_frame.pack(pady = 20)
+
+    humidity_frame.grid(row = 0, column = 0)
+    wind_frame.grid(row = 0, column = 1)
+    cloud_frame.grid(row = 0, column = 2)
 
     #Display window
     window.mainloop()
