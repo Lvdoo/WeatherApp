@@ -73,6 +73,8 @@ Create a file named config.py inside the weather_app/ folder:
 
 API_KEY = "YOUR_API_KEY_HERE"
 
-
 You can get a free API key from:
 https://openweathermap.org/
+
+5️⃣ Run the application
+python weather_app/main.py
