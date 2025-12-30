@@ -25,6 +25,7 @@ The app allows users to check real-time weather information for a given city usi
 ---
 
 ## 📁 Project Structure
+```
 weather_app/
 │── main.py # Application entry point
 │── gui.py # GUI interface
@@ -38,6 +39,7 @@ weather_app/
 requirements.txt
 .gitignore
 README.md
+```
 
 ---
 
