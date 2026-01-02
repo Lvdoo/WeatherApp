@@ -28,10 +28,8 @@ def display_weather() :
     day_frame = Frame(infos_frame, bg = "#517DCA")
 
     #Labels and inputs
-    label_city = Label(top_frame, text = "City : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
-    label_unit = Label(top_frame, text = "Unit : ", font = ('Helvetica', 20), bg = "#517DCA", fg = "white")
+    label_city = Label(top_frame, text = "City : ", font = ('Helvetica', 30), bg = "#517DCA", fg = "white")
     city_input = Entry(top_frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
-    unit_input = Entry(top_frame, font = ('Helvetica', 20), bg = "#7895C7", fg = "white")
 
     label_temperature = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 60), fg = "white")
     label_temp_felt = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
@@ -65,9 +63,8 @@ def display_weather() :
     sunset_image = ImageTk.PhotoImage(Image.open("icons/sunset_icon.png").resize((50,50)))
     label_sunset_image = Label(time_frame, image = "", bg = "#517DCA")
 
-    def display_infos() :
+    def display_infos(unit : str) :
         city = city_input.get().strip().capitalize()
-        unit = unit_input.get().strip().lower()
         symbol = ""
 
         if unit == "celsius" or unit == "metric":
@@ -148,15 +145,15 @@ def display_weather() :
         label_sunset_image.image = sunset_image
         
         
-    #Search button to display weather
-    search_button = Button(top_frame, text = "Search", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = display_infos)
+    #Units buttons to display weather
+    celsius_button = Button(top_frame, text = "Celsius", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = lambda : display_infos("metric"), width = 12)
+    fahrenheit_button = Button(top_frame, text = "Fahrenheit", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = lambda : display_infos("imperial"), width = 12)
 
     #Display labels of top_frame
     label_city.grid(row = 0, column = 0, sticky = "e", padx = 5, pady = (20,5))
     city_input.grid(row = 0, column = 1, padx = 10, pady = (20,5))
-    label_unit.grid(row = 1, column = 0, sticky = "e", padx = 5, pady = 5)
-    unit_input.grid(row = 1, column = 1, padx=10, pady = 5)
-    search_button.grid(row = 2, column = 0, columnspan = 2, pady=5, sticky = EW) #columnspan permet à "search_button" de prendre 2 colonnes
+    celsius_button.grid(row = 1, column = 0, columnspan = 3, pady=5, sticky = W) #columnspan permet à "search_button" de prendre 2 colonnes
+    fahrenheit_button.grid(row = 1, column = 1, columnspan = 3, pady=5, sticky = E)
 
     #Display labels and images of main_frame
     label_temperature.grid(row = 0,column = 1, pady = (50,5))
@@ -178,7 +175,6 @@ def display_weather() :
     label_sunset_image.grid(row = 0, column = 2, pady = (50,5))
     label_sunset.grid(row = 0, column = 3, padx = (0,40), pady = (50,5))
     label_time.grid(pady = 25)
-
         
     #Display frames
     top_frame.pack(pady = 10)
