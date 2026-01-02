@@ -25,6 +25,7 @@ The app allows users to check real-time weather information for a given city usi
 ---
 
 ## 📁 Project Structure
+
 ```
 weather_app/
 │── main.py # Application entry point
@@ -46,37 +47,52 @@ README.md
 ## ⚙️ Installation & Setup
 
 ### 1️⃣ Clone the repository
+
 ```bash
-git clone https://github.com/your-username/weather-app.git
+git clone https://github.com/Lvdoo/WeatherApp
 cd weather-app
 
 python -m venv .venv
+```
 
-2️⃣ Create a virtual environment
+### 2️⃣ Create a virtual environment
 
+```bash
 python -m venv .venv
+```
 
 Activate it:
 
 Windows
 
+```bash
 .venv\Scripts\activate
+```
 
 macOS / Linux
 
+```bash
 source .venv/bin/activate
+```
 
 3️⃣ Install dependencies
+
+```bash
 pip install -r requirements.txt
+```
 
-4️⃣ Configure the API key
+### 4️⃣ Configure the API key
 
-Create a file named config.py inside the weather_app/ folder:
+Create a file named `config.py` inside the folder:
 
-API_KEY = "YOUR_API_KEY_HERE"
+```python
+APIKEY = "YOUR_API_KEY_HERE"
+```
 
-You can get a free API key from:
-https://openweathermap.org/
+You can get a free API key from: [OpenWeather](https://openweathermap.org/)
 
-5️⃣ Run the application
-python weather_app/main.py
+### 5️⃣ Run the application
+
+```bash
+python main.py
+```
