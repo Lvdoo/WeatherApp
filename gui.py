@@ -105,7 +105,7 @@ def display_weather() :
 
         label_humidity.config(text = f"Humidity : {humidity}%")
         label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
-        label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)}{wind_speed_unit}")
+        label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)} {wind_speed_unit}")
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
         label_sunrise.config(text = f"Sunrise : {sunrise_time}")
         label_sunset.config(text = f"Sunset : {sunset_time}")
