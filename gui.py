@@ -64,6 +64,9 @@ def display_weather() :
     sunset_image = ImageTk.PhotoImage(Image.open("icons/sunset_icon.png").resize((50,50)))
     label_sunset_image = Label(time_frame, image = "", bg = "#517DCA")
 
+    #Error message
+    label_error = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "#DA1A30")
+
     def display_infos(unit : str) :
         city = city_input.get().strip().capitalize()
         symbol = ""
@@ -75,63 +78,67 @@ def display_weather() :
         elif unit == "imperial" :
             symbol = "°F"
             wind_speed_unit = "mph"
+        try :
+            infos = weather_api.get_weather(city,unit)
 
-        infos = weather_api.get_weather(city,unit)
+            #Get temperature values rounded
+            temperature = round(infos['temperature'])
+            temp_felt = round(infos['felt_temp'])
+            max_temp = round(infos['max_temp'])
+            min_temp = round(infos['min_temp'])
 
-        #Get temperature values rounded
-        temperature = round(infos['temperature'])
-        temp_felt = round(infos['felt_temp'])
-        max_temp = round(infos['max_temp'])
-        min_temp = round(infos['min_temp'])
+            #Get other infos
+            humidity = infos['humidity']
+            wind_direction = infos['wind_orientation']
+            wind_speed = round(infos['wind_speed'])
+            clouds = infos['clouds']
+            timezone_offset = infos['timezone']
+            sunrise = utils.to_time(infos['sunrise'], timezone_offset)
+            sunset = utils.to_time(infos['sunset'], timezone_offset)
+            sunrise_time = sunrise[11:16]
+            sunset_time = sunset[11:16]
+            time = utils.to_time(infos['time'], timezone_offset)
+            time_date = time[:11]
+            
+            #Update labels 
+            label_temperature.config(text = f"{temperature}{symbol}")
+            label_temp_felt.config(text = f"Temperature felt : {temp_felt}{symbol}")
+            label_max_temp.config(text = f"{max_temp}{symbol}")
+            label_min_temp.config(text = f"{min_temp}{symbol}")
 
-        #Get other infos
-        humidity = infos['humidity']
-        wind_direction = infos['wind_orientation']
-        wind_speed = round(infos['wind_speed'])
-        clouds = infos['clouds']
-        timezone_offset = infos['timezone']
-        sunrise = utils.to_time(infos['sunrise'], timezone_offset)
-        sunset = utils.to_time(infos['sunset'], timezone_offset)
-        sunrise_time = sunrise[11:16]
-        sunset_time = sunset[11:16]
-        time = utils.to_time(infos['time'], timezone_offset)
-        time_date = time[:11]
-        
-        #Update labels 
-        label_temperature.config(text = f"{temperature}{symbol}")
-        label_temp_felt.config(text = f"Temperature felt : {temp_felt}{symbol}")
-        label_max_temp.config(text = f"{max_temp}{symbol}")
-        label_min_temp.config(text = f"{min_temp}{symbol}")
+            label_humidity.config(text = f"Humidity : {humidity}%")
+            label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
+            label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)} {wind_speed_unit}")
+            label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
+            label_sunrise.config(text = f"Sunrise : {sunrise_time}")
+            label_sunset.config(text = f"Sunset : {sunset_time}")
+            label_time.config(text=f"Local Day/Time : {time_date} {datetime.now().strftime('%H:%M:%S')}")
+            update_time(timezone_offset)
 
-        label_humidity.config(text = f"Humidity : {humidity}%")
-        label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
-        label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)} {wind_speed_unit}")
-        label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
-        label_sunrise.config(text = f"Sunrise : {sunrise_time}")
-        label_sunset.config(text = f"Sunset : {sunset_time}")
-        label_time.config(text=f"Local Day/Time : {time_date} {datetime.now().strftime('%H:%M:%S')}")
-        update_time(timezone_offset)
+            #Udpate images
+            label_max_temp_image.config(image = max_temp_image)
+            label_max_temp_image.image = max_temp_image  
+            label_min_temp_image.config(image = min_temp_image)
+            label_min_temp_image.image = min_temp_image
 
-        #Udpate images
-        label_max_temp_image.config(image = max_temp_image)
-        label_max_temp_image.image = max_temp_image  
-        label_min_temp_image.config(image = min_temp_image)
-        label_min_temp_image.image = min_temp_image
+            label_humidity_image.config(image = humidity_image)
+            label_humidity_image.image = humidity_image
+            label_orientation_image.config(image = wind_orientation_image)
+            label_orientation_image.image = wind_orientation_image
+            label_wind_icon_image.config(image = wind_icon_image)
+            label_wind_icon_image.image = wind_icon_image
+            label_cloud_image.config(image = clouds_image)
+            label_cloud_image.image = clouds_image
 
-        label_humidity_image.config(image = humidity_image)
-        label_humidity_image.image = humidity_image
-        label_orientation_image.config(image = wind_orientation_image)
-        label_orientation_image.image = wind_orientation_image
-        label_wind_icon_image.config(image = wind_icon_image)
-        label_wind_icon_image.image = wind_icon_image
-        label_cloud_image.config(image = clouds_image)
-        label_cloud_image.image = clouds_image
+            label_sunrise_image.config(image = sunrise_image)
+            label_sunrise_image.image = sunrise_image
+            label_sunset_image.config(image = sunset_image)
+            label_sunset_image.image = sunset_image
+        except Exception as e :
+            label_error.config(text = e)
+            label_error.grid(row = 1, columnspan = 2)
 
-        label_sunrise_image.config(image = sunrise_image)
-        label_sunrise_image.image = sunrise_image
-        label_sunset_image.config(image = sunset_image)
-        label_sunset_image.image = sunset_image
-        
+
     def update_time(timezone_offset : int):
         """
         Get the time and update it
