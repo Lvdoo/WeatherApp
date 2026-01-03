@@ -101,6 +101,8 @@ def display_weather() :
             time_date = time[:11]
             
             #Update labels 
+            label_error.config(text = "")
+
             label_temperature.config(text = f"{temperature}{symbol}")
             label_temp_felt.config(text = f"Temperature felt : {temp_felt}{symbol}")
             label_max_temp.config(text = f"{max_temp}{symbol}")
@@ -134,10 +136,35 @@ def display_weather() :
             label_sunrise_image.image = sunrise_image
             label_sunset_image.config(image = sunset_image)
             label_sunset_image.image = sunset_image
-        except Exception as e :
-            label_error.config(text = e)
-            label_error.grid(row = 1, columnspan = 2)
+            
+        except Exception as e:
 
+            # Reset all weather info labels
+            label_temperature.config(text="")
+            label_temp_felt.config(text="")
+            label_max_temp.config(text="")
+            label_min_temp.config(text="")
+            label_humidity.config(text="")
+            label_wind_direction.config(text="")
+            label_wind_speed.config(text="")
+            label_clouds.config(text="")
+            label_sunrise.config(text="")
+            label_sunset.config(text="")
+            label_time.config(text="")
+
+            # Reset images
+            label_max_temp_image.config(image="")
+            label_min_temp_image.config(image="")
+            label_humidity_image.config(image="")
+            label_orientation_image.config(image="")
+            label_wind_icon_image.config(image="")
+            label_cloud_image.config(image="")
+            label_sunrise_image.config(image="")
+            label_sunset_image.config(image="")
+
+            # Display only the error message
+            label_error.config(text=f"City not found or API error!")
+            label_error.grid(row=1, columnspan=2)
 
     def update_time(timezone_offset : int):
         """
