@@ -21,6 +21,7 @@ def display_weather() :
     infos_frame = Frame(window, bg = "#517DCA")
 
     #Subframes
+    max_min_temp_frame = Frame(main_frame, bg = "#517DCA")
     humidity_frame = Frame(infos_frame, bg = "#517DCA")
     wind_frame = Frame(infos_frame, bg = "#517DCA")
     cloud_frame = Frame(infos_frame, bg = "#517DCA")
@@ -33,8 +34,8 @@ def display_weather() :
 
     label_temperature = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 60), fg = "white")
     label_temp_felt = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
-    label_max_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
-    label_min_temp = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
+    label_max_temp = Label(max_min_temp_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
+    label_min_temp = Label(max_min_temp_frame, text = "", bg = "#517DCA", font = ('Helvetica', 15), fg = "white")
 
     label_humidity = Label(humidity_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
     label_wind_direction = Label(wind_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "white")
@@ -46,9 +47,9 @@ def display_weather() :
 
     #Images
     max_temp_image = ImageTk.PhotoImage(Image.open("icons/fleche_haut.png").resize((20,17)))
-    label_max_temp_image = Label(main_frame, image = "", bg = "#517DCA") 
+    label_max_temp_image = Label(max_min_temp_frame, image = "", bg = "#517DCA") 
     min_temp_image = ImageTk.PhotoImage(Image.open("icons/fleche_bas.png").resize((20,17)))
-    label_min_temp_image = Label(main_frame, image = "", bg = "#517DCA")
+    label_min_temp_image = Label(max_min_temp_frame, image = "", bg = "#517DCA")
 
     humidity_image = ImageTk.PhotoImage(Image.open("icons/humidity_icon.png").resize((50,50)))
     label_humidity_image = Label(humidity_frame, image = "", bg = "#517DCA")
@@ -66,21 +67,22 @@ def display_weather() :
     def display_infos(unit : str) :
         city = city_input.get().strip().capitalize()
         symbol = ""
+        wind_speed_unit = ""
 
-        if unit == "celsius" or unit == "metric":
-            unit = "metric"
-            symbol = "°"
-        elif unit == "fahrenheit" or unit == "imperial":
-            unit = "imperial"
-            symbol = "F"
+        if unit == "metric" :
+            symbol = "°C"
+            wind_speed_unit = "km/h"
+        elif unit == "imperial" :
+            symbol = "°F"
+            wind_speed_unit = "mph"
 
         infos = weather_api.get_weather(city,unit)
 
         #This is to place the icon better
         if abs(round(infos['max_temp']) > 10) :
-            padx_fleche_haut = (0,180)
+            padx_fleche_haut = (0,200)
         else : 
-            padx_fleche_haut = (0,170)
+            padx_fleche_haut = (0,200)
 
         if abs(round(infos['min_temp'])) > 10 :
             padx_fleche_bas = (60,0)
@@ -117,7 +119,7 @@ def display_weather() :
 
         label_humidity.config(text = f"Humidity : {humidity}%")
         label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
-        label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)}")
+        label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)}{wind_speed_unit}")
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
         label_sunrise.config(text = f"Sunrise : {sunrise_time}")
         label_sunset.config(text = f"Sunset : {sunset_time}")
@@ -125,11 +127,9 @@ def display_weather() :
 
         #Udpate images
         label_max_temp_image.config(image = max_temp_image)
-        label_max_temp_image.image = max_temp_image
-        label_max_temp_image.grid(row = 2, column = 1, padx = padx_fleche_haut, pady = 5) 
+        label_max_temp_image.image = max_temp_image  
         label_min_temp_image.config(image = min_temp_image)
         label_min_temp_image.image = min_temp_image
-        label_min_temp_image.grid(row = 2, column = 1, padx = padx_fleche_bas, pady = 5) 
 
         label_humidity_image.config(image = humidity_image)
         label_humidity_image.image = humidity_image
@@ -139,6 +139,7 @@ def display_weather() :
         label_wind_icon_image.image = wind_icon_image
         label_cloud_image.config(image = clouds_image)
         label_cloud_image.image = clouds_image
+
         label_sunrise_image.config(image = sunrise_image)
         label_sunrise_image.image = sunrise_image
         label_sunset_image.config(image = sunset_image)
@@ -158,8 +159,10 @@ def display_weather() :
     #Display labels and images of main_frame
     label_temperature.grid(row = 0,column = 1, pady = (50,5))
     label_temp_felt.grid(row = 1, column = 1)
-    label_max_temp.grid(row = 2, column = 1, padx = (0,120), pady = 5)
-    label_min_temp.grid(row = 2, column = 1, padx = (120,0), pady = 5)
+    label_max_temp_image.grid(in_ = max_min_temp_frame, row = 0, column = 0, pady = 5) #in_ permet de préciser dans quel frame on est, sans in_, comme temperature est dans top_frame programme croit que le reste est dans top_frame
+    label_max_temp.grid(in_ = max_min_temp_frame, row = 0, column = 1, padx = (0,50), pady = 5)
+    label_min_temp_image.grid(in_ = max_min_temp_frame, row = 0, column = 2, padx = (50,0), pady = 5)
+    label_min_temp.grid(in_ = max_min_temp_frame, row = 0, column = 3, pady = 5)
 
     #Display labels and images of infos_frame
     label_humidity_image.grid(row = 0, column = 0, pady = (50,5))
@@ -181,6 +184,7 @@ def display_weather() :
     main_frame.pack()
     infos_frame.pack()
 
+    max_min_temp_frame.grid(row = 2, columnspan = 2)
     humidity_frame.grid(row = 0, column = 0)
     wind_frame.grid(row = 0, column = 1)
     cloud_frame.grid(row = 0, column = 2)
