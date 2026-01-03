@@ -78,17 +78,6 @@ def display_weather() :
 
         infos = weather_api.get_weather(city,unit)
 
-        #This is to place the icon better
-        if abs(round(infos['max_temp']) > 10) :
-            padx_fleche_haut = (0,200)
-        else : 
-            padx_fleche_haut = (0,200)
-
-        if abs(round(infos['min_temp'])) > 10 :
-            padx_fleche_bas = (60,0)
-        else :
-            padx_fleche_bas = (70,0)
-
         #Get temperature values rounded
         temperature = round(infos['temperature'])
         temp_felt = round(infos['felt_temp'])
@@ -107,10 +96,7 @@ def display_weather() :
         sunset_time = sunset[11:16]
         time = utils.to_time(infos['time'], timezone_offset)
         time_date = time[:11]
-
-        #Get actual time
-        now_local = datetime.now(timezone(timedelta(seconds=timezone_offset)))
-
+        
         #Update labels 
         label_temperature.config(text = f"{temperature}{symbol}")
         label_temp_felt.config(text = f"Temperature felt : {temp_felt}{symbol}")
@@ -123,7 +109,8 @@ def display_weather() :
         label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
         label_sunrise.config(text = f"Sunrise : {sunrise_time}")
         label_sunset.config(text = f"Sunset : {sunset_time}")
-        label_time.config(text=f"Local Day/Time : {time_date} {now_local.strftime('%H:%M')}")
+        label_time.config(text=f"Local Day/Time : {time_date} {datetime.now().strftime('%H:%M:%S')}")
+        update_time(timezone_offset)
 
         #Udpate images
         label_max_temp_image.config(image = max_temp_image)
@@ -145,7 +132,17 @@ def display_weather() :
         label_sunset_image.config(image = sunset_image)
         label_sunset_image.image = sunset_image
         
+    def update_time(timezone_offset : int):
+        """
+        Get the time and update it
         
+        :param timezone_offset : 
+        """""
+        now_local = datetime.now(timezone(timedelta(seconds=timezone_offset)))
+        time_str = now_local.strftime('%Y-%m-%d %H:%M:%S')
+        label_time.config(text=f"Local Day/Time : {time_str}")
+        label_time.after(1000, lambda: update_time(timezone_offset))
+
     #Units buttons to display weather
     celsius_button = Button(top_frame, text = "Celsius", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = lambda : display_infos("metric"), width = 12)
     fahrenheit_button = Button(top_frame, text = "Fahrenheit", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = lambda : display_infos("imperial"), width = 12)
