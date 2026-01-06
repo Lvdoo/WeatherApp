@@ -68,7 +68,7 @@ def display_weather() :
     label_error = Label(main_frame, text = "", bg = "#517DCA", font = ('Helvetica', 20), fg = "#DA1A30")
 
     def display_infos(unit : str) :
-        city = city_input.get().strip().capitalize()
+        city = city_input.get().strip().title()
         symbol = ""
         wind_speed_unit = ""
 
