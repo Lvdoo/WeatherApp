@@ -191,7 +191,7 @@ def display_weather() :
     fahrenheit_button.grid(row = 1, column = 1, columnspan = 3, pady=5, sticky = E)
 
     #Display labels and images of main_frame
-    label_temperature.grid(row = 0,column = 1, pady = (50,5))
+    label_temperature.grid(row = 0,column = 1, pady = (40,5))
     label_temp_felt.grid(row = 1, column = 1)
     label_max_temp_image.grid(in_ = max_min_temp_frame, row = 0, column = 0, pady = 5) #in_ permet de préciser dans quel frame on est, sans in_, comme temperature est dans top_frame programme croit que le reste est dans top_frame
     label_max_temp.grid(in_ = max_min_temp_frame, row = 0, column = 1, padx = (0,50), pady = 5)
@@ -199,22 +199,22 @@ def display_weather() :
     label_min_temp.grid(in_ = max_min_temp_frame, row = 0, column = 3, pady = 5)
 
     #Display labels and images of infos_frame
-    label_humidity_image.grid(row = 0, column = 0, pady = (50,5))
-    label_humidity.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
-    label_orientation_image.grid(row = 0, column = 0, pady = (50,5))
-    label_wind_direction.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
-    label_wind_icon_image.grid(row = 0, column = 2, pady = (50,5))
-    label_wind_speed.grid(row = 0, column = 3, padx = (0,40), pady = (50,5))
-    label_cloud_image.grid(row = 0, column = 0, pady = (50,5))
-    label_clouds.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
-    label_sunrise_image.grid(row = 0, column = 0, pady = (50,5))
-    label_sunrise.grid(row = 0, column = 1, padx = (0,40), pady = (50,5))
-    label_sunset_image.grid(row = 0, column = 2, pady = (50,5))
-    label_sunset.grid(row = 0, column = 3, padx = (0,40), pady = (50,5))
+    label_humidity_image.grid(row = 0, column = 0, pady = (40,5))
+    label_humidity.grid(row = 0, column = 1, padx = (0,40), pady = (40,5))
+    label_orientation_image.grid(row = 0, column = 0, pady = (40,5))
+    label_wind_direction.grid(row = 0, column = 1, padx = (0,40), pady = (40,5))
+    label_wind_icon_image.grid(row = 0, column = 2, pady = (40,5))
+    label_wind_speed.grid(row = 0, column = 3, padx = (0,40), pady = (40,5))
+    label_cloud_image.grid(row = 0, column = 0, pady = (40,5))
+    label_clouds.grid(row = 0, column = 1, padx = (0,40), pady = (40,5))
+    label_sunrise_image.grid(row = 0, column = 0, pady = (30,5))
+    label_sunrise.grid(row = 0, column = 1, padx = (0,40), pady = (30,5))
+    label_sunset_image.grid(row = 0, column = 2, pady = (30,5))
+    label_sunset.grid(row = 0, column = 3, padx = (0,40), pady = (30,5))
     label_time.grid(pady = 25)
         
     #Display frames
-    top_frame.pack(pady = 10)
+    top_frame.pack()
     main_frame.pack()
     infos_frame.pack()
 
