@@ -72,12 +72,6 @@ def display_weather() :
         symbol = ""
         wind_speed_unit = ""
 
-        if unit == "metric" :
-            symbol = "°C"
-            wind_speed_unit = "km/h"
-        elif unit == "imperial" :
-            symbol = "°F"
-            wind_speed_unit = "mph"
         try :
             infos = weather_api.get_weather(city,unit)
 
@@ -100,6 +94,15 @@ def display_weather() :
             time = utils.to_time(infos['time'], timezone_offset)
             time_date = time[:11]
             
+            if unit == "metric" :
+                symbol = "°C"
+                wind_speed_unit = "km/h"
+                wind_speed_converted = utils.wind_speed_to_km_h(wind_speed)
+            elif unit == "imperial" :
+                symbol = "°F"
+                wind_speed_unit = "mph"
+                wind_speed_converted = wind_speed
+
             #Update labels 
             label_error.config(text = "")
 
@@ -110,7 +113,7 @@ def display_weather() :
 
             label_humidity.config(text = f"Humidity : {humidity}%")
             label_wind_direction.config(text = f"Wind Direction : {utils.wind_deg_to_direction(wind_direction)}")
-            label_wind_speed.config(text = f"Wind Speed : {utils.wind_speed_to_km_h(wind_speed)} {wind_speed_unit}")
+            label_wind_speed.config(text = f"Wind Speed : {wind_speed_converted} {wind_speed_unit}")
             label_clouds.config(text = f"Clouds : {utils.clouds_to_text(clouds)}")
             label_sunrise.config(text = f"Sunrise : {sunrise_time}")
             label_sunset.config(text = f"Sunset : {sunset_time}")
