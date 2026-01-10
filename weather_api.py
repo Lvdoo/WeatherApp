@@ -77,7 +77,6 @@ def get_previsional_weather(city : str) -> dict :
     Returns:
         dict: Return a dictionnary of infos about weather of a city
     """
-    weather_prevision_dict = {}
     latitude, longitude = geolocalisation(city)
     
     if not latitude is None or longitude is None:
