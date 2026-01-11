@@ -87,7 +87,7 @@ def wind_speed_to_km_h(wind_speed : int) -> int :
     """
     return wind_speed * 3.6
 
-def group_infos_by_day(city: str) -> list:
+def group_infos_by_day(city: str, unit : str) -> list:
     """
     Group the weather infos by day
     Args:
@@ -96,7 +96,7 @@ def group_infos_by_day(city: str) -> list:
     Returns:
         list: list of every infos of the weather per hour by day
     """
-    infos = weather_api.get_previsional_weather(city)
+    infos = weather_api.get_previsional_weather(city, unit)
     days_dict = {}
     for datetime_str, hour_infos in infos.items():
         day = datetime_str.split(" ")[0]
@@ -106,7 +106,7 @@ def group_infos_by_day(city: str) -> list:
 
     return list(days_dict.values())
 
-def daily_summary(city: str) -> list:
+def daily_summary(city: str, unit : str) -> list:
     """
     Get the infos of a day.
     Args:
@@ -115,7 +115,7 @@ def daily_summary(city: str) -> list:
     Returns:
         list: list of min_temp, max_temp, description and icon
     """
-    days = group_infos_by_day(city)
+    days = group_infos_by_day(city, unit)
     summary = []
 
     for day in days:
