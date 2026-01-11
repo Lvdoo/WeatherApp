@@ -55,7 +55,7 @@ def geolocalisation(city : str) -> tuple[float, float] :
 
     if not city or not isinstance(city, str):
         raise ValueError("City must be a non-empty string")
-    url = f"https://api.openweathermap.org/geo/1.0/direct?q={city}&appid={APIKEY}"
+    url = f"https://api.openweathermap.org/geo/1.0/direct?q={city.strip().title()}&appid={APIKEY}"
     response = requests.get(url)
     data = response.json()
 
