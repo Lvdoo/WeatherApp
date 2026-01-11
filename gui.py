@@ -27,6 +27,7 @@ def display_weather() :
     cloud_frame = Frame(infos_frame, bg = "#517DCA")
     time_frame = Frame(infos_frame, bg = "#517DCA")
     day_frame = Frame(infos_frame, bg = "#517DCA")
+    previsional_weather = Frame(infos_frame, bg = "#517DCA")
 
     #Labels and inputs
     label_city = Label(top_frame, text = "City : ", font = ('Helvetica', 30), bg = "#517DCA", fg = "white")
@@ -74,6 +75,8 @@ def display_weather() :
 
         try :
             infos = weather_api.get_weather(city,unit)
+            previsional_weather = weather_api.get_previsional_weather() 
+
 
             #Get temperature values rounded
             temperature = round(infos['temperature'])
@@ -224,6 +227,7 @@ def display_weather() :
     cloud_frame.grid(row = 0, column = 2)
     time_frame.grid(row = 1, columnspan = 3)
     day_frame.grid(row = 2, columnspan = 3)
+    previsional_weather.pack(row = 3)
 
     #Display window
-    window.mainloop()
+    window.mainloop()   
