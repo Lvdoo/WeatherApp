@@ -1,4 +1,5 @@
 from datetime import datetime,timezone,timedelta
+import weather_api
 
 def to_time(timestamp : int, tz_offset : int) -> str :
     """
@@ -85,3 +86,53 @@ def wind_speed_to_km_h(wind_speed : int) -> int :
         int: Wind speed in km/h
     """
     return wind_speed * 3.6
+
+def group_infos_by_day(city: str) -> list:
+    """
+    Group the weather infos by day
+    Args:
+        city (str): Name of the city to get the previsional weather
+
+    Returns:
+        list: list of every infos of the weather per hour by day
+    """
+    infos = weather_api.get_previsional_weather(city)
+    days_dict = {}
+    for datetime_str, hour_infos in infos.items():
+        day = datetime_str.split(" ")[0]
+        if day not in days_dict:
+            days_dict[day] = []
+        days_dict[day].append(hour_infos)
+
+    return list(days_dict.values())
+
+def daily_summary(city: str) -> list:
+    """
+    Get the infos of a day.
+    Args:
+        city (str): name of the city for previsional weather
+
+    Returns:
+        list: list of min_temp, max_temp, description and icon
+    """
+    days = group_infos_by_day(city)
+    summary = []
+
+    for day in days:
+        min_temp = min(hour["temp_min"] for hour in day)
+        max_temp = max(hour["temp_max"] for hour in day)
+        descriptions = [hour["weather"] for hour in day]
+        description = max(set(descriptions), key=descriptions.count)
+        icon = day[len(day) // 2]["icon"]
+
+        summary.append({
+            "min_temp": round(min_temp),
+            "max_temp": round(max_temp),
+            "description": description,
+            "icon": icon
+        })
+
+    return summary
+
+ 
+    
