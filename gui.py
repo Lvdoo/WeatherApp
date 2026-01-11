@@ -142,6 +142,8 @@ def display_weather() :
             label_sunrise_image.image = sunrise_image
             label_sunset_image.config(image = sunset_image)
             label_sunset_image.image = sunset_image
+            display_5_days(city, unit)
+
             
         except Exception as e:
 
@@ -182,6 +184,42 @@ def display_weather() :
         time_str = now_local.strftime('%Y-%m-%d %H:%M:%S')
         label_time.config(text=f"Local Day/Time : {time_str}")
         label_time.after(1000, lambda: update_time(timezone_offset))
+
+    def display_5_days(city: str):
+        for widget in day_frame.winfo_children():
+            widget.destroy()
+
+        daily = weather_api.daily_summary(city)
+
+        for i, day in enumerate(daily[:5]):
+            box = Frame(day_frame, bg="#517DCA", padx=15)
+            box.grid(row=0, column=i, padx=10)
+
+            day_label = Label(
+                box,
+                text=(datetime.now() + timedelta(days=i+1)).strftime("%a"),
+                bg="#517DCA",
+                fg="white",
+                font=("Helvetica", 14, "bold")
+            )
+            day_label.pack()
+
+            icon_img = ImageTk.PhotoImage(
+                Image.open(f"icons/{day['icon']}.png").resize((40, 40))
+            )
+            icon_label = Label(box, image=icon_img, bg="#517DCA")
+            icon_label.image = icon_img
+            icon_label.pack()
+
+            # Températures
+            temp_label = Label(
+                box,
+                text=f"{day['min_temp']}° / {day['max_temp']}°",
+                bg="#517DCA",
+                fg="white",
+                font=("Helvetica", 12)
+            )
+            temp_label.pack()
 
     #Units buttons to display weather
     celsius_button = Button(top_frame, text = "Celsius", font = ('Helvetica', 20), bg = "white", fg = "#4065A4", command = lambda : display_infos("metric"), width = 12)
@@ -227,7 +265,7 @@ def display_weather() :
     cloud_frame.grid(row = 0, column = 2)
     time_frame.grid(row = 1, columnspan = 3)
     day_frame.grid(row = 2, columnspan = 3)
-    previsional_weather.pack(row = 3)
+    previsional_weather.grid(row = 3)
 
     #Display window
     window.mainloop()   
