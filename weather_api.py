@@ -79,10 +79,10 @@ def get_previsional_weather(city : str, unit : str) -> dict :
     """
     latitude, longitude = geolocalisation(city)
     
-    if not latitude is None or longitude is None:
-        raise ValueError("City must be a non-empty string")
+    if latitude is None or longitude is None:
+        raise ValueError("Latitude and longitude must be non empty float")
     
-    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon=2.{longitude}&appid={APIKEY}&units={unit.strip().lower()}"
+    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon={longitude}&appid={APIKEY}&units={unit.strip().lower()}"
     response = requests.get(url)
     data = response.json()
 
