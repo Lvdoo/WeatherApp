@@ -67,7 +67,7 @@ def geolocalisation(city : str) -> str :
 
     return latitude, longitude
 
-def get_previsional_weather(city : str) -> dict :
+def get_previsional_weather(city : str, unit : str) -> dict :
     """
     Get the weather for the next 3 days
     Args:
@@ -82,7 +82,7 @@ def get_previsional_weather(city : str) -> dict :
     if not latitude is None or longitude is None:
         raise ValueError("City must be a non-empty string")
     
-    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon=2.{longitude}&appid={APIKEY}"
+    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={latitude}&lon=2.{longitude}&appid={APIKEY}&units={unit.strip().lower()}"
     response = requests.get(url)
     data = response.json()
 
