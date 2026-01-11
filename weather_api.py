@@ -17,7 +17,7 @@ def get_weather(city : str, unit : str) -> dict:
     if unit not in ("metric", "imperial"):
         raise ValueError("Unit must be 'metric' or 'imperial'")
     
-    url = f"https://api.openweathermap.org/data/2.5/weather?q={city.strip().capitalize()}&appid={APIKEY}&units={unit.strip().lower()}"
+    url = f"https://api.openweathermap.org/data/2.5/weather?q={city.strip().title()}&appid={APIKEY}&units={unit.strip().lower()}"
     response = requests.get(url)
     data = response.json()
     

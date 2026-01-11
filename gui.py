@@ -75,8 +75,6 @@ def display_weather() :
 
         try :
             infos = weather_api.get_weather(city,unit)
-            previsional_weather = weather_api.get_previsional_weather(city, unit) 
-
 
             #Get temperature values rounded
             temperature = round(infos['temperature'])
@@ -186,13 +184,13 @@ def display_weather() :
         label_time.after(1000, lambda: update_time(timezone_offset))
 
     def display_5_days(city: str, unit : str):
-        for widget in day_frame.winfo_children():
+        for widget in previsional_weather.winfo_children():
             widget.destroy()
 
         daily = utils.daily_summary(city, unit)
 
         for i, day in enumerate(daily[:5]):
-            box = Frame(day_frame, bg="#517DCA", padx=15)
+            box = Frame(previsional_weather, bg="#517DCA", padx=15)
             box.grid(row=0, column=i, padx=10)
 
             day_label = Label(
@@ -228,7 +226,7 @@ def display_weather() :
     #Display labels of top_frame
     label_city.grid(row = 0, column = 0, sticky = "e", padx = 5, pady = (20,5))
     city_input.grid(row = 0, column = 1, padx = 10, pady = (20,5))
-    celsius_button.grid(row = 1, column = 0, columnspan = 3, pady=5, sticky = W) #columnspan permet à "search_button" de prendre 2 colonnes
+    celsius_button.grid(row = 1, column = 0, columnspan = 3, pady=5, sticky = W) #columnspan permet de prendre la place de plusieurs colonnes
     fahrenheit_button.grid(row = 1, column = 1, columnspan = 3, pady=5, sticky = E)
 
     #Display labels and images of main_frame
@@ -240,19 +238,23 @@ def display_weather() :
     label_min_temp.grid(in_ = max_min_temp_frame, row = 0, column = 3, pady = 5)
 
     #Display labels and images of infos_frame
-    label_humidity_image.grid(row = 0, column = 0, pady = (40,5))
-    label_humidity.grid(row = 0, column = 1, padx = (0,40), pady = (40,5))
-    label_orientation_image.grid(row = 0, column = 0, pady = (40,5))
-    label_wind_direction.grid(row = 0, column = 1, padx = (0,40), pady = (40,5))
-    label_wind_icon_image.grid(row = 0, column = 2, pady = (40,5))
-    label_wind_speed.grid(row = 0, column = 3, padx = (0,40), pady = (40,5))
-    label_cloud_image.grid(row = 0, column = 0, pady = (40,5))
-    label_clouds.grid(row = 0, column = 1, padx = (0,40), pady = (40,5))
-    label_sunrise_image.grid(row = 0, column = 0, pady = (30,5))
-    label_sunrise.grid(row = 0, column = 1, padx = (0,40), pady = (30,5))
-    label_sunset_image.grid(row = 0, column = 2, pady = (30,5))
-    label_sunset.grid(row = 0, column = 3, padx = (0,40), pady = (30,5))
-    label_time.grid(pady = 25)
+    label_humidity_image.grid(in_=humidity_frame, row=0, column=0)
+    label_humidity.grid(in_=humidity_frame, row=0, column=1)
+
+    label_orientation_image.grid(in_=wind_frame, row=0, column=0)
+    label_wind_direction.grid(in_=wind_frame, row=0, column=1)
+    label_wind_icon_image.grid(in_=wind_frame, row=0, column=2)
+    label_wind_speed.grid(in_=wind_frame, row=0, column=3)
+
+    label_cloud_image.grid(in_=cloud_frame, row=0, column=0)
+    label_clouds.grid(in_=cloud_frame, row=0, column=1)
+
+    label_sunrise_image.grid(in_=time_frame, row=0, column=0)
+    label_sunrise.grid(in_=time_frame, row=0, column=1)
+    label_sunset_image.grid(in_=time_frame, row=0, column=2)
+    label_sunset.grid(in_=time_frame, row=0, column=3)
+
+    label_time.grid(in_ = day_frame, pady = 25)
         
     #Display frames
     top_frame.pack()
