@@ -75,7 +75,7 @@ def display_weather() :
 
         try :
             infos = weather_api.get_weather(city,unit)
-            previsional_weather = weather_api.get_previsional_weather() 
+            previsional_weather = weather_api.get_previsional_weather(city, unit) 
 
 
             #Get temperature values rounded
@@ -185,11 +185,11 @@ def display_weather() :
         label_time.config(text=f"Local Day/Time : {time_str}")
         label_time.after(1000, lambda: update_time(timezone_offset))
 
-    def display_5_days(city: str):
+    def display_5_days(city: str, unit : str):
         for widget in day_frame.winfo_children():
             widget.destroy()
 
-        daily = weather_api.daily_summary(city)
+        daily = utils.daily_summary(city, unit)
 
         for i, day in enumerate(daily[:5]):
             box = Frame(day_frame, bg="#517DCA", padx=15)
