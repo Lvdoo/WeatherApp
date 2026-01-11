@@ -1,7 +1,8 @@
 # 🌤 Weather App (Python)
 
 A simple desktop weather application built with Python.  
-The app allows users to check real-time weather information for a given city using a weather API.
+The app allows users to check real-time weather information for a given city using a weather API and the weather for the 5 next days(only the general weather, minimum and maximum temperature).
+Warning : the graphical interface might not be optimal depending on the dimensions of your computer.
 
 ---
 
