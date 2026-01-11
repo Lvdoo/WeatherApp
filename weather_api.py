@@ -42,7 +42,7 @@ def get_weather(city : str, unit : str) -> dict:
     }
     return weather_dict
 
-def geolocalisation(city : str) -> str : 
+def geolocalisation(city : str) -> tuple[float, float] : 
     """
     Get latitude and logitude of a city
 
