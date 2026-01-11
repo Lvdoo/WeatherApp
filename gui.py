@@ -190,7 +190,7 @@ def display_weather() :
         daily = utils.daily_summary(city, unit)
 
         for i, day in enumerate(daily[:5]):
-            box = Frame(previsional_weather, bg="#517DCA", padx=15)
+            box = Frame(previsional_weather, bg="#517DCA", padx=15, pady = 30)
             box.grid(row=0, column=i, padx=10)
 
             day_label = Label(
@@ -198,12 +198,12 @@ def display_weather() :
                 text=(datetime.now() + timedelta(days=i+1)).strftime("%a"),
                 bg="#517DCA",
                 fg="white",
-                font=("Helvetica", 14, "bold")
+                font=("Helvetica", 20, "bold")
             )
             day_label.pack()
 
             icon_img = ImageTk.PhotoImage(
-                Image.open(f"icons/{day['icon']}.png").resize((40, 40))
+                Image.open(f"icons/{day['icon']}.png").resize((50, 50))
             )
             icon_label = Label(box, image=icon_img, bg="#517DCA")
             icon_label.image = icon_img
@@ -215,7 +215,7 @@ def display_weather() :
                 text=f"{day['min_temp']}° / {day['max_temp']}°",
                 bg="#517DCA",
                 fg="white",
-                font=("Helvetica", 12)
+                font=("Helvetica", 15)
             )
             temp_label.pack()
 
@@ -232,10 +232,10 @@ def display_weather() :
     #Display labels and images of main_frame
     label_temperature.grid(row = 0,column = 1, pady = (40,5))
     label_temp_felt.grid(row = 1, column = 1)
-    label_max_temp_image.grid(in_ = max_min_temp_frame, row = 0, column = 0, pady = 5) #in_ permet de préciser dans quel frame on est, sans in_, comme temperature est dans top_frame programme croit que le reste est dans top_frame
-    label_max_temp.grid(in_ = max_min_temp_frame, row = 0, column = 1, padx = (0,50), pady = 5)
-    label_min_temp_image.grid(in_ = max_min_temp_frame, row = 0, column = 2, padx = (50,0), pady = 5)
-    label_min_temp.grid(in_ = max_min_temp_frame, row = 0, column = 3, pady = 5)
+    label_max_temp_image.grid(in_ = max_min_temp_frame, row = 0, column = 0, pady = (5,30)) #in_ permet de préciser dans quel frame on est, sans in_, comme temperature est dans top_frame programme croit que le reste est dans top_frame
+    label_max_temp.grid(in_ = max_min_temp_frame, row = 0, column = 1, padx = (0,50), pady = (5,30))
+    label_min_temp_image.grid(in_ = max_min_temp_frame, row = 0, column = 2, padx = (50,0), pady = (5,30))
+    label_min_temp.grid(in_ = max_min_temp_frame, row = 0, column = 3, pady = (5,30))
 
     #Display labels and images of infos_frame
     label_humidity_image.grid(in_=humidity_frame, row=0, column=0)
@@ -249,10 +249,10 @@ def display_weather() :
     label_cloud_image.grid(in_=cloud_frame, row=0, column=0)
     label_clouds.grid(in_=cloud_frame, row=0, column=1)
 
-    label_sunrise_image.grid(in_=time_frame, row=0, column=0)
-    label_sunrise.grid(in_=time_frame, row=0, column=1)
-    label_sunset_image.grid(in_=time_frame, row=0, column=2)
-    label_sunset.grid(in_=time_frame, row=0, column=3)
+    label_sunrise_image.grid(in_=time_frame, row=0, column=0, pady = 10)
+    label_sunrise.grid(in_=time_frame, row=0, column=1, pady = 10)
+    label_sunset_image.grid(in_=time_frame, row=0, column=2, pady = 10)
+    label_sunset.grid(in_=time_frame, row=0, column=3, pady = 10)
 
     label_time.grid(in_ = day_frame, pady = 25)
         
@@ -267,7 +267,7 @@ def display_weather() :
     cloud_frame.grid(row = 0, column = 2)
     time_frame.grid(row = 1, columnspan = 3)
     day_frame.grid(row = 2, columnspan = 3)
-    previsional_weather.grid(row = 3)
+    previsional_weather.grid(row = 3, columnspan = 3)
 
     #Display window
     window.mainloop()   
